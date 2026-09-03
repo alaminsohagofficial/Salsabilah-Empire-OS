@@ -1,11 +1,11 @@
 const axios = require('axios');
 
-class SalsabilaSmsService {
+class SalsabilahSmsService {
     constructor() {
         // Configuration for your chosen gateway or local free/lifetime setup
         this.apiUrl = process.env.SALSABILAH_SMS_API_URL || 'https://api.salsabilahsms.local/send';
         this.apiKey = process.env.SALSABILAH_SMS_API_KEY || 'FREE_LIFETIME_KEY';
-        this.senderId = process.env.SALSABILAH_SENDER_ID || 'SalsabilaPOS';
+        this.senderId = process.env.SALSABILAH_SENDER_ID || 'SalsabilahPOS';
     }
 
     async sendSms(recipientPhone, message) {
