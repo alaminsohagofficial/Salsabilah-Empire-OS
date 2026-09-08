@@ -9,27 +9,42 @@ const { sendCustomSms } = require('../controllers/smsController');
 const { createSale, getSales } = require('../controllers/saleController');
 const { getProducts, addProduct } = require('../controllers/productController');
 
+// Optional: Middleware placeholders (যেমন: অথেন্টিকেশন বা লগিং এর জন্য)
+// const { verifyAuth } = require('../middleware/authMiddleware');
+
+/**
+ * 👑 Salsabilah Empire OS - Core API Router
+ * Industrial Resilience & Automated Business Operations
+ */
+
 // 1. Customer Management Routes
-router.get('/customers', getCustomers);
-router.post('/customers', addCustomer);
+router.route('/customers')
+    .get(getCustomers)
+    .post(addCustomer);
 
 // 2. Supplier Management Routes
-router.get('/suppliers', getSuppliers);
-router.post('/suppliers', addSupplier);
+router.route('/suppliers')
+    .get(getSuppliers)
+    .post(addSupplier);
 
 // 3. Payment Account Routes (bKash, Bank, Cash, etc.)
-router.get('/payment-accounts', getPaymentAccounts);
-router.put('/payment-accounts/:id', updateAccountBalance);
+router.route('/payment-accounts')
+    .get(getPaymentAccounts);
+
+router.route('/payment-accounts/:id')
+    .put(updateAccountBalance);
 
 // 4. Salsabilah SMS Notification Routes
 router.post('/sms/send', sendCustomSms);
 
-// 5. Sales & Invoice Management Routes (Triggers automated SMS)
-router.get('/sales', getSales);
-router.post('/sales', createSale);
+// 5. Sales & Invoice Management Routes (Triggers automated POS & SMS)
+router.route('/sales')
+    .get(getSales)
+    .post(createSale);
 
 // 6. Product & Inventory Management Routes
-router.get('/products', getProducts);
-router.post('/products', addProduct);
+router.route('/products')
+    .get(getProducts)
+    .post(addProduct);
 
 module.exports = router;
