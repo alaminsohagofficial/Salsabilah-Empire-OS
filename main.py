@@ -1,7 +1,7 @@
 import os
-from flask import Flask
+from flask import Flask, render_template_string
 
-# Flask অ্যাপ ভেরিয়েবল তৈরি
+# Flask অ্যাপ ভেরিয়েবল তৈরি
 app = Flask(__name__)
 
 class SalsabilahEmpire:
@@ -10,23 +10,213 @@ class SalsabilahEmpire:
         self.location = "SR Electronics Park, Hatboalia"
         self.target = 1000
 
-    def get_status(self):
-        return (
-            f"<div style='font-family: monospace; padding: 20px; background: #0f172a; color: #38bdf8; border-radius: 8px; max-width: 500px; margin: 50px auto; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);'>"
-            f"<h2 style='color: #f43f5e; margin-top: 0;'>👑 {self.brand}</h2>"
-            f"<hr style='border-color: #334155;'>"
-            f"<p><strong>Status:</strong> <span style='color: #4ade80;'>Online & Armed</span></p>"
-            f"<p><strong>Goal:</strong> Managing {self.target} Businesses</p>"
-            f"<p><strong>Location:</strong> {self.location}</p>"
-            f"</div>"
-        )
+    def get_dashboard_html(self):
+        # আপনার ডিজাইন করা প্রিমিয়াম এইচটিএমএল টেমপ্লেট
+        html_content = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>MD. AL AMIN SOHAG | Salsabilah Amin Empires</title>
+            
+            <style>
+                :root {
+                    --gold: #D4AF37;
+                    --deep-blue: #020617;
+                    --white: #f8fafc;
+                    --green: #34A853;
+                }
+
+                body {
+                    font-family: 'Inter', sans-serif;
+                    background-color: var(--deep-blue);
+                    color: var(--white);
+                    margin: 0;
+                    text-align: center;
+                }
+
+                .hero {
+                    padding: 60px 20px;
+                    background: radial-gradient(circle, #1e293b 0%, #020617 100%);
+                    border-bottom: 3px solid var(--gold);
+                }
+
+                .quote {
+                    font-size: 2rem;
+                    color: var(--gold);
+                    font-weight: bold;
+                    margin-bottom: 20px;
+                    letter-spacing: 2px;
+                }
+
+                .dashboard {
+                    max-width: 850px;
+                    margin: -30px auto 40px;
+                    background: rgba(15, 23, 42, 0.95);
+                    padding: 30px;
+                    border-radius: 15px;
+                    border: 1px solid var(--gold);
+                    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+                }
+
+                .asset-value {
+                    font-size: 3.5rem;
+                    font-weight: 900;
+                    color: #fff;
+                    text-shadow: 0 0 15px var(--gold);
+                }
+
+                .software-box {
+                    background: #000;
+                    padding: 20px;
+                    border-radius: 8px;
+                    border: 1px dashed var(--gold);
+                    margin-top: 25px;
+                }
+
+                input {
+                    padding: 12px;
+                    border: 1px solid var(--gold);
+                    background: #111;
+                    color: var(--gold);
+                    width: 70%;
+                    margin-bottom: 15px;
+                    border-radius: 4px;
+                }
+
+                .action-btn {
+                    background: var(--gold);
+                    color: #000;
+                    padding: 12px 35px;
+                    border: none;
+                    font-weight: bold;
+                    cursor: pointer;
+                    text-transform: uppercase;
+                    border-radius: 4px;
+                    transition: 0.3s;
+                }
+
+                .action-btn:hover {
+                    opacity: 0.9;
+                }
+
+                .grid {
+                    display: flex;
+                    justify-content: center;
+                    gap: 20px;
+                    max-width: 850px;
+                    margin: 0 auto 40px;
+                    padding: 0 20px;
+                }
+
+                .card {
+                    background: rgba(15, 23, 42, 0.9);
+                    padding: 20px;
+                    border-radius: 8px;
+                    text-align: left;
+                    border-left: 4px solid var(--gold);
+                    flex: 1;
+                    border: 1px solid #1e293b;
+                }
+
+                .card h3 { 
+                    color: var(--gold); 
+                    margin-top: 0; 
+                    font-size: 1rem; 
+                }
+
+                .footer {
+                    padding: 40px;
+                    font-size: 0.8rem;
+                    color: #64748b;
+                    border-top: 1px solid #1e293b;
+                }
+            </style>
+        </head>
+        <body>
+
+        <section class="hero">
+            <div class="quote">"Logic Rules the Globe."</div>
+            <button class="action-btn" onclick="playProclamation()" style="background: transparent; color: var(--gold); border: 2px solid var(--gold);">
+                🔊 Listen to Official Proclamation
+            </button>
+        </section>
+
+        <div class="dashboard">
+            <h3 style="color: var(--gold); font-size: 0.7rem; letter-spacing: 4px;">SYSTEM ASSET VALUATION</h3>
+            <div class="asset-value">$ <span id="counter">0</span></div>
+            
+            <p style="color: #94a3b8; font-size: 1.1rem; font-weight: bold; margin-top: 15px;">
+                Founder: MD. AL AMIN SOHAG | Salsabilah Amin Empires LTD 👑 
+            </p>
+
+            <div class="software-box">
+                <h4 style="color: var(--green); margin: 0 0 10px;">THE DIGIT THEORY ENGINE v3.0</h4>
+                <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 10px;">Input Value for Justice & Fairness Calculation:</p>
+                <input type="number" id="theoryInput" placeholder="Enter number...">
+                <br>
+                <button class="action-btn" onclick="runTheory()">Execute Logic</button>
+                <div id="resultDisplay" style="margin-top: 15px; font-weight: bold; color: var(--gold);"></div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3>Vision & Innovation</h3>
+                <p style="font-size: 0.9rem; color: #cbd5e1;">Utilizing 'The Digit Theory' for redefining computational fairness and global data filtration. Expert in backend architecture.</p>
+            </div>
+            <div class="card">
+                <h3>Empire Scale</h3>
+                <p style="font-size: 0.9rem; color: #cbd5e1;">Bridging technological boundaries. Strategic growth through Salsabilah-Empire-OS Engine and automated POS systems.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 SALSABILAH AMIN EMPIRES LTD. | POWERED BY MD. AL AMIN SOHAG</p>
+        </div>
+
+        <script>
+            function playProclamation() {
+                const text = "Official announcement from MD. AL AMIN SOHAG. Welcome to Salsabilah Amin Empires. My logic, the Digit Theory, rules the global market.";
+                const msg = new SpeechSynthesisUtterance(text);
+                msg.lang = 'en-US';
+                msg.rate = 0.9;
+                window.speechSynthesis.speak(msg);
+            }
+
+            function runTheory() {
+                let input = document.getElementById('theoryInput').value;
+                if(input) {
+                    let result = input * 2.5; // Justice Multiplier
+                    document.getElementById('resultDisplay').innerHTML = "Theory Output: " + result.toLocaleString() + " <br><span style='font-size:0.8rem; color: #34A853;'>[System Justice Multiplier Applied]</span>";
+                } else {
+                    alert("Sir, please enter a numeric value for the Theory.");
+                }
+            }
+
+            let count = 0;
+            const target = 125000;
+            const interval = setInterval(() => {
+                count += 2500;
+                document.getElementById('counter').innerText = Math.floor(count).toLocaleString();
+                if (count >= target) {
+                    document.getElementById('counter').innerText = "125,000";
+                    clearInterval(interval);
+                }
+            }, 40);
+        </script>
+
+        </body>
+        </html>
+        """
+        return render_template_string(html_content)
 
 @app.route('/')
 def home():
     os_sys = SalsabilahEmpire()
-    return os_sys.get_status()
+    return os_sys.get_dashboard_html()
 
 if __name__ == "__main__":
-    # সার্ভার পোর্ট সেটআপ (ক্লাউড হোস্টিংয়ের জন্য প্রয়োজনীয়)
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
