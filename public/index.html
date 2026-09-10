@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salsabilah Empire OS - POS Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #555; }
+        input { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        button { background: #007bff; color: white; border: none; padding: 12px 15px; border-radius: 4px; cursor: pointer; font-size: 16px; width: 100%; font-weight: bold; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>👑 Salsabilah Empire POS Terminal</h2>
+        <div class="form-group">
+            <label>Invoice Number:</label>
+            <input type="text" id="invoice_no" value="INV-2026-001">
+        </div>
+        <div class="form-group">
+            <label>Customer Name:</label>
+            <input type="text" id="customer_name" value="S.R. Electronics Client">
+        </div>
+        <div class="form-group">
+            <label>Contact Number:</label>
+            <input type="text" id="contact_number" value="+8801700000000">
+        </div>
+        <div class="form-group">
+            <label>Grand Total (BDT):</label>
+            <input type="number" id="grand_total" value="15000">
+        </div>
+        <button onclick="processCheckout()">Complete Checkout & Sync Stock</button>
+    </div>
+
+    <script>
+        async function processCheckout() {
+            const payload = {
+                invoice_no: document.getElementById('invoice_no').value,
+                customer_id: 1,
+                customer_name: document.getElementById('customer_name').value,
+                contact_number: document.getElementById('contact_number').value,
+                payment_status: "PAID",
+                payment_method: "BANK_TRANSFER",
+                sub_total: parseFloat(document.getElementById('grand_total').value),
+                grand_total: parseFloat(document.getElementById('grand_total').value),
+                items: [
+                    { product_id: 1, quantity: 1, unit_price: parseFloat(document.getElementById('grand_total').value), total_price: parseFloat(document.getElementById('grand_total').value) }
+                ]
+            };
+
+            try {
+                const response = await axios.post('/api/sales', payload);
+                alert(response.data.message);
+            } catch (error) {
+                alert('Checkout failed: ' + (error.response?.data?.error || error.message));
+            }
+        }
+    </script>
+</body>
+</html>
