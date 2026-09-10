@@ -1,27 +1,34 @@
--- 1. Brands Master Table (Minister, MyOne, Butterfly Integration)
-CREATE TABLE IF NOT EXISTS brands (
+CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
-    brand_name VARCHAR(100) UNIQUE NOT NULL,
-    official_website VARCHAR(150),
-    status VARCHAR(20) DEFAULT 'Active'
+    name VARCHAR(255) NOT NULL,
+    current_stock INT DEFAULT 0,
+    price DECIMAL(10,2) NOT NULL
 );
 
--- Insert Minister, MyOne, Butterfly
-INSERT INTO brands (brand_name, official_website) VALUES 
-('Minister', 'https://ministerbd.com'),
-('MyOne', 'https://myonebd.com'),
-('Butterfly', 'https://butterflygroup.com.bd')
-ON CONFLICT (brand_name) DO NOTHING;
-
--- 2. Integrated Products Table for SR Electronics Park
-CREATE TABLE IF NOT EXISTS integrated_products (
+CREATE TABLE IF NOT EXISTS sales (
     id SERIAL PRIMARY KEY,
-    brand_id INT REFERENCES brands(id),
-    product_name VARCHAR(200) NOT NULL,
-    model_code VARCHAR(100) UNIQUE NOT NULL,
-    category VARCHAR(100) NOT NULL, -- AC, Refrigerator, TV, Home Appliance
-    unit_purchase_price NUMERIC(10, 2) NOT NULL,
-    selling_price NUMERIC(10, 2) NOT NULL,
-    current_stock INT DEFAULT 0,
+    invoice_no VARCHAR(50) UNIQUE NOT NULL,
+    customer_id INT,
+    customer_name VARCHAR(255),
+    contact_number VARCHAR(50),
+    payment_status VARCHAR(50),
+    payment_method VARCHAR(50),
+    sub_total DECIMAL(12,2),
+    grand_total DECIMAL(12,2),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS sale_items (
+    id SERIAL PRIMARY KEY,
+    sale_id INT REFERENCES sales(id),
+    product_id INT REFERENCES products(id),
+    quantity INT,
+    unit_price DECIMAL(10,2),
+    total_price DECIMAL(12,2)
+);
+
+CREATE TABLE IF NOT EXISTS payment_accounts (
+    id SERIAL PRIMARY KEY,
+    account_name VARCHAR(255),
+    balance DECIMAL(15,2)
 );
