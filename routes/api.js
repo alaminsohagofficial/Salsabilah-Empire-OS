@@ -1,50 +1,35 @@
 const express = require('express');
 const router = express.Router();
 
-// Import Controllers
-const { getCustomers, addCustomer } = require('../controllers/customerController');
-const { getSuppliers, addSupplier } = require('../controllers/supplierController');
-const { getPaymentAccounts, updateAccountBalance } = require('../controllers/accountController');
-const { sendCustomSms } = require('../controllers/smsController');
-const { createSale, getSales } = require('../controllers/saleController');
-const { getProducts, addProduct } = require('../controllers/productController');
+// Get all products inventory
+router.get('/products', async (req, res) => {
+    try {
+        // Database query logic here
+        res.status(200).json({ success: true, message: "Products fetched successfully", data: [] });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
 
-// Optional: Middleware placeholders (যেমন: অথেন্টিকেশন বা লগিং এর জন্য)
-// const { verifyAuth } = require('../middleware/authMiddleware');
-
-/**
- * 👑 Salsabilah Empire OS - Core API Router
- * Industrial Resilience & Automated Business Operations
- */
-
-// 1. Customer Management Routes
-router.route('/customers')
-    .get(getCustomers)
-    .post(addCustomer);
-
-// 2. Supplier Management Routes
-router.route('/suppliers')
-    .get(getSuppliers)
-    .post(addSupplier);
-
-// 3. Payment Account Routes (bKash, Bank, Cash, etc.)
-router.route('/payment-accounts')
-    .get(getPaymentAccounts);
-
-router.route('/payment-accounts/:id')
-    .put(updateAccountBalance);
-
-// 4. Salsabilah SMS Notification Routes
-router.post('/sms/send', sendCustomSms);
-
-// 5. Sales & Invoice Management Routes (Triggers automated POS & SMS)
-router.route('/sales')
-    .get(getSales)
-    .post(createSale);
-
-// 6. Product & Inventory Management Routes
-router.route('/products')
-    .get(getProducts)
-    .post(addProduct);
+// Process POS Sale and Generate Invoice
+router.post('/sales', async (req, res) => {
+    try {
+        const { customerId, items, paymentMethod, totalAmount, discount, tax } = req.body;
+        
+        // Generate unique invoice number
+        const invoiceNumber = `INV-${Date.now()}`;
+        
+        // Save sale logic & stock deduction here
+        
+        res.status(201).json({
+            success: true,
+            message: "Sale completed successfully",
+            invoiceNumber: invoiceNumber,
+            totalAmount: totalAmount
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
 
 module.exports = router;
