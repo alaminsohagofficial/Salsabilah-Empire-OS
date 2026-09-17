@@ -1,9 +1,13 @@
-# Target: 2.2 Million Followers & 1000 Clients
-def empire_marketing_bot():
-    goal = "2.2M Followers"
-    clients = 1000
-    print(f"COMMENCING GLOBAL BROADCAST for Salsabilah Amin Empires Ltd.")
-    print(f"MISSION: Reach {goal} | SCALE: {clients} Businesses")
+const mysql = require('mysql2/promise');
 
-if __name__ == "__main__":
-    empire_marketing_bot()
+const pool = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '',
+    database: process.env.DB_NAME || 'salsabilah_empire_os',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
+});
+
+module.exports = pool;
