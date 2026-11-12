@@ -6,7 +6,10 @@
     "name": "MyOne 43\" Smart Android LED TV",
     "sku": "MY-TV-43-SMART",
     "price": 32500,
+    "currency": "BDT",
+    "vat_applicable": true,
     "stock": 10,
+    "status": "In Stock",
     "warranty": "2 Years"
   },
   {
@@ -16,7 +19,10 @@
     "name": "Minister M-200 V2 Refrigerator",
     "sku": "MIN-REF-200-V2",
     "price": 34900,
+    "currency": "BDT",
+    "vat_applicable": true,
     "stock": 5,
+    "status": "In Stock",
     "warranty": "10 Years"
   },
   {
@@ -26,7 +32,10 @@
     "name": "LG Dual Inverter AC 1.5 Ton",
     "sku": "LG-AC-18-INV",
     "price": 79000,
+    "currency": "BDT",
+    "vat_applicable": true,
     "stock": 3,
+    "status": "Low Stock",
     "warranty": "10 Years"
   }
 ]
