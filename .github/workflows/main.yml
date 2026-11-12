@@ -1,9 +1,35 @@
 name: OS-Deploy
+
 on: [push]
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Change to your required version
+          
+      - name: Upgrade Pip
+        run: python -m pip install --upgrade pip
+
+      - name: Install Dependencies
+        run: |
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+
       - name: Run Core Logic
         run: python main.py
+```[cite: 1]
+
+---
+
+<ElicitationsGroup message="If you had something else in mind for your update, choose an option below:">
+  <Elicitation label="Add environment secrets" query="How do I add secret environment variables or API keys to this GitHub Actions workflow?"/>
+  <Elicitation label="Add dependency caching" query="How can I cache Python dependencies in this workflow to speed up build times?"/>
+  <Elicitation label="Trigger on pull requests" query="How do I update the 'on' trigger to also run this workflow on pull requests?"/>
+</ElicitationsGroup>
